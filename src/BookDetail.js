@@ -1,11 +1,23 @@
 import { useNavigate, useParams } from 'react-router-dom';
 import Button from '@mui/material/Button';
 import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore';
+import { useState, useEffect } from 'react';
+import { API } from './global';
 
 export function BookDetail({ bookList }) {
   const { bookid } = useParams();
-  const book = bookList[bookid];
+  // const book = bookList[bookid];
   const navigate = useNavigate()
+
+  const [ book, setBook] = useState({})
+  useEffect(() =>{
+    fetch(`${API}/books/${bookid}`,{
+      method: "GET",
+    })
+    .then(res => res.json())
+    .then( bk => {setBook(bk)
+    console.log(bk)})
+    }, [])
   return(
     
      <div>

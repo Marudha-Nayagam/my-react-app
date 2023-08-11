@@ -1,14 +1,25 @@
 
 import './App.css';
 import { Addcolor } from './Addcolor';
-import { useState } from 'react';
-import { Route, Routes, Link, Navigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { Route, Routes, Link, Navigate, useNavigate } from 'react-router-dom';
 import { Users } from './Users';
 import { Home } from './Home';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { BookList } from './BookList';
 import { BookDetail } from './BookDetail';
 import { AddBook } from './AddBook';
+import { PageNotFound } from './PageNotFound';
+import AppBar from '@mui/material/AppBar';
+import Box from '@mui/material/Box';
+import Toolbar from '@mui/material/Toolbar';
+import { Button } from '@mui/material';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
+import CssBaseline from '@mui/material/CssBaseline';
+import Brightness4Icon from '@mui/icons-material/Brightness4';
+import Brightness7Icon from '@mui/icons-material/Brightness7';
+import DarkModeIcon from '@mui/icons-material/DarkMode';
+import LightModeIcon from '@mui/icons-material/LightMode';
 
 const INITAIL_BOOK_LIST = [
   {
@@ -72,23 +83,46 @@ const INITAIL_BOOK_LIST = [
 ]
 
 function App() {
-  const [ bookList, setBookList] = useState(INITAIL_BOOK_LIST)
+  const [ bookList, setBookList] = useState([])
+  const navigate = useNavigate()
+  const [ mode, setMode ] = useState("dark")
+
+// create context
+  const theme = createTheme({
+    palette: {
+      mode: mode,
+    },
+  });
+ 
   return (
+    <ThemeProvider theme={theme}>
+        <CssBaseline />
     <div className="App">
-      <nav>
-        <ul>
-          <li><Link to='/'>Home</Link></li>
-          <li><Link to='/books'>BookList</Link></li>
-          <li><Link to='/add-color'>Addcolor</Link></li>
-          <li><Link to='/profile'>Users</Link></li>
-          <li><Link to='/books/add' >AddBook</Link></li>
-          <li><Link to='/somewhere' >Somewhere</Link></li>
-        </ul>
-      </nav>
+       <AppBar position="static">
+       <Toolbar>
+        <Button color='inherit' onClick={() => navigate("/") }>
+          Home</Button>
+        <Button color='inherit' onClick={() => navigate("/books") }>
+        BookList </Button>
+        <Button color='inherit' onClick={() => navigate("/add-color") }>
+        Addcolor</Button>
+        <Button color='inherit' onClick={() => navigate("/profile") }>
+        Users</Button>
+        <Button color='inherit' onClick={() => navigate("/books/add") }>
+        AddBook</Button>
+        <Button color='inherit' sx={{marginLeft: "auto"}}
+         startIcon={
+          mode === 'dark' ? < LightModeIcon/> : <DarkModeIcon />}
+
+          onClick={() => setMode( mode==="light" ? "dark" : "light" ) }>
+          {mode==="light" ? "dark" : "light"} MODE
+        </Button>
+       </Toolbar>
+       </AppBar>
       <Routes>
         <Route path='/' element={ <Home /> } />
-        <Route path='/books' element={ <BookList bookList={bookList}  />} />
-        <Route path='/books/:bookid' element={ <BookDetail bookList={bookList}  />} />
+        <Route path='/books' element={ <BookList  />} />
+        <Route path='/books/:bookid' element={ <BookDetail   />} />
         <Route path='/add-color' element={ <Addcolor />} />
         <Route path='/profile' element={ < Users /> }  />
         <Route path='/books/add' element={ < AddBook bookList={bookList} setBookList={setBookList} /> }  />
@@ -98,18 +132,8 @@ function App() {
 
       </Routes>
     </div>
+    </ThemeProvider>
   );
 }
-
-function PageNotFound(){
-  return(
-    <div className='not-found'>
-      <img width="750" 
-      src='https://i.pinimg.com/originals/90/fb/43/90fb4379e62ef4104a0bd58bae82fe35.gif' alt='404 not found' />
-    </div>
-  )
-}
-
-
 
 export default App;

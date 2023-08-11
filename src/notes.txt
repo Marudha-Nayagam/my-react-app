@@ -22,3 +22,14 @@
         <Profile  name={usr.name} pic = {usr.pic} />
       ))} */}
     {/* <Addcolor /> */}
+    {/* 
+      <nav>
+        <ul>
+          <li><Link to='/'>Home</Link></li>
+          <li><Link to='/books'>BookList</Link></li>
+          <li><Link to='/add-color'>Addcolor</Link></li>
+          <li><Link to='/profile'>Users</Link></li>
+          <li><Link to='/books/add' >AddBook</Link></li>
+          <li><Link to='/somewhere' >Somewhere</Link></li>
+        </ul>
+      </nav> */}

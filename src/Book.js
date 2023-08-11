@@ -29,7 +29,7 @@ export function Book({ book, id }) {
         onClick={() => setShow(!show)}
         color='primary'
       >
-        {show ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+        {show ? <ExpandMoreIcon />  : <ExpandLessIcon />}
       </IconButton>
       {/* <button onClick={() => setShow(!show)}>Toggle Description</button> */}
       <IconButton
